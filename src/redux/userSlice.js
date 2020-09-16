@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
+import { checkTokenExpiration } from '../services/authentication';
 
 const setInitialState = () => {
     const initalState = {
@@ -7,7 +8,7 @@ const setInitialState = () => {
         claims: null,
     };
     const token = localStorage.getItem('accessToken');
-    if (token) {
+    if (token && !checkTokenExpiration()) {
         initalState.claims = JSON.parse(atob(token.split('.')[1]));
         initalState.authenticationStatus = true;
     }

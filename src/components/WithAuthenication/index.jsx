@@ -2,11 +2,12 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { checkTokenExpiration } from '../../services/authentication';
 
 const withAuthentication = (WrappedComponent) => (props) => {
     const authenticationStatus = useSelector((state) => state.user.authenticationStatus);
 
-    if (!authenticationStatus) {
+    if (!authenticationStatus || checkTokenExpiration()) {
         return <Redirect to="/login" />;
     }
     return <WrappedComponent {...props} />;
