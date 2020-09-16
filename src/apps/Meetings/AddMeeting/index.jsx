@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 import { useFormik } from 'formik';
-import { useHistory } from 'react-router-dom';
 import { getUsers } from '../../../services/getDetails';
 import UserDropdown from '../UserDropdown';
 import addMeeting from '../../../services/addDetails';
+import padZeros from '../../../helpers/padZeros';
 
 const AddMeetings = () => {
     const [userEmails, setUserEmails] = useState([]);
     const [attendees, setAttendees] = useState([]);
     const [error, setError] = useState(null);
-    const history = useHistory();
 
     const addAttendee = (attendee) => {
         const newAttendees = [...attendees];
@@ -69,8 +68,9 @@ const AddMeetings = () => {
             endTimeHours,
             endTimeMinutes,
             ...rest
-        }) => {
-            const padZeros = (time) => String(time).padStart(2, '0');
+        }, {
+                resetForm,
+            }) => {
             const meeting = {
                 ...rest,
                 startTime: `${padZeros(startTimeHours)}:${padZeros(startTimeMinutes)}`,
@@ -78,7 +78,7 @@ const AddMeetings = () => {
             };
             try {
                 await addMeeting(meeting);
-                history.push('/meetings');
+                resetForm({});
             } catch (err) {
                 setError(err.message);
             }
@@ -206,9 +206,9 @@ const AddMeetings = () => {
                 <button
                     type="submit"
                     className="btn btn-primary"
-                    // disabled={formik.isSubmitting}
+                    disabled={!formik.isValid}
                 >
-                    Add meeting
+                    Submit
                 </button>
             </form>
         </div>
