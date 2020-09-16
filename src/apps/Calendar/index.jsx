@@ -50,10 +50,10 @@ const Calendar = () => {
                     <div className="col-8  d-flex justify-content-between">
                         <div className="col-5">
                             <h4>
-                                {moment().format('DD MMM YYYY')}
+                                {moment(date).format('DD MMM YYYY')}
                             </h4>
                             <h6>
-                                {moment().format('dddd')}
+                                {moment(date).format('dddd')}
                             </h6>
                         </div>
                         <div className="col-5 text-right">
@@ -65,11 +65,12 @@ const Calendar = () => {
                             />
                         </div>
                     </div>
-                    <div className="col-8 rbc-calendar mt-4">
+                    <div className="col-8 rbc-calendar mt-2">
                         <EventCalendar
                             localizer={localizer}
                             style={style}
                             events={eventList}
+                            date={date}
                             defaultView="day"
                             views={['day']}
                             startAccessor="start"
