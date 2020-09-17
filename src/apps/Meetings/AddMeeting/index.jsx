@@ -75,6 +75,7 @@ const AddMeetings = () => {
                 ...rest,
                 startTime: `${padZeros(startTimeHours)}:${padZeros(startTimeMinutes)}`,
                 endTime: `${padZeros(endTimeHours)}:${padZeros(endTimeMinutes)}`,
+                attendees,
             };
             try {
                 await addMeeting(meeting);
