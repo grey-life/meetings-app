@@ -7,14 +7,17 @@ const FilterResult = ({ meetings, removeMeeting, userEmails }) => (
         <h4>Meetings matching the result </h4>
         <hr />
         {
-            meetings.map((meeting, index) => (
-                <Meeting
-                    key={meeting.description}
-                    meeting={meeting}
-                    removeMeeting={() => removeMeeting(index)}
-                    userEmails={userEmails}
-                />
-            ))
+            meetings.map((meeting, index) => {
+                const { _id: id } = meeting;
+                return (
+                    <Meeting
+                        key={id}
+                        meeting={meeting}
+                        removeMeeting={() => removeMeeting(index)}
+                        userEmails={userEmails}
+                    />
+                );
+            })
         }
     </div>
 );
