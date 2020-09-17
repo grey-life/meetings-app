@@ -15,6 +15,7 @@ const UserDropdown = ({ addAttendee, userEmails }) => {
                 value={selected}
                 onChange={handleChange}
             >
+                <option value="" disabled>Please select a username...</option>
                 {
                     userEmails.map((user) => (
                         <option
