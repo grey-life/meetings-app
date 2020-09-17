@@ -1,15 +1,21 @@
 /* eslint-disable react/prop-types */
-import React from 'react';
+import React, { useState } from 'react';
 import { useFormik } from 'formik';
 
 const FilterForm = ({ updateMeetings }) => {
+    const [error, setError] = useState(null);
+
     const formik = useFormik({
         initialValues: {
             date: 'TODAY',
             search: '',
         },
         onSubmit: async (values) => {
-            await updateMeetings(values);
+            try {
+                await updateMeetings(values);
+            } catch (err) {
+                setError(err.message);
+            }
         },
     });
 
@@ -29,7 +35,7 @@ const FilterForm = ({ updateMeetings }) => {
                     >
                         <option value="ALL">ALL</option>
                         <option value="TODAY">TODAY</option>
-                        <option value="PREVIOUS">PREVIOUS</option>
+                        <option value="PAST">PAST</option>
                         <option value="UPCOMING">UPCOMING</option>
                     </select>
                 </div>
@@ -44,6 +50,13 @@ const FilterForm = ({ updateMeetings }) => {
                         onChange={formik.handleChange}
                     />
                 </div>
+                {
+                    error && (
+                        <div className="alert alert-danger">
+                            {error}
+                        </div>
+                    )
+                }
                 <button
                     type="submit"
                     className="btn btn-primary"

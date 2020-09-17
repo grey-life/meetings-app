@@ -13,6 +13,7 @@ const Calendar = () => {
     const localizer = momentLocalizer(moment);
     const [date, setDate] = useState(moment().format('YYYY-MM-DD'));
     const [eventList, setEventList] = useState([]);
+    const [error, setError] = useState(null);
 
     const handleChange = (event) => {
         setDate(event.target.value);
@@ -38,6 +39,9 @@ const Calendar = () => {
         getCalendar(date)
             .then((data) => {
                 createEventList(data);
+            })
+            .catch((err) => {
+                setError(err.message);
             });
     }, [date]);
 
@@ -66,15 +70,23 @@ const Calendar = () => {
                         </div>
                     </div>
                     <div className="col-8 rbc-calendar mt-2">
+                        {
+                            error && (
+                                <div className="alert alert-danger">
+                                    {error}
+                                </div>
+                            )
+                        }
                         <EventCalendar
                             localizer={localizer}
                             style={style}
                             events={eventList}
-                            date={date}
+                            date={new Date(date)}
                             defaultView="day"
                             views={['day']}
                             startAccessor="start"
                             endAccessor="end"
+                            onNavigate={() => {}}
                         />
                     </div>
                 </div>
