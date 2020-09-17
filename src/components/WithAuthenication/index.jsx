@@ -7,7 +7,7 @@ import { checkTokenExpiration } from '../../services/authentication';
 const withAuthentication = (WrappedComponent) => (props) => {
     const authenticationStatus = useSelector((state) => state.user.authenticationStatus);
 
-    if (!authenticationStatus || checkTokenExpiration()) {
+    if (checkTokenExpiration() || !authenticationStatus) {
         return <Redirect to="/login" />;
     }
     return <WrappedComponent {...props} />;

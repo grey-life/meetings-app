@@ -1,5 +1,4 @@
 import axios from 'axios';
-import jwt from 'jsonwebtoken';
 
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
@@ -11,8 +10,8 @@ const onSuccess = ({ data }) => {
 const checkTokenExpiration = () => {
     const accessToken = localStorage.getItem('accessToken');
     if (accessToken) {
-        const decodedToken = jwt.decode(accessToken, { complete: true });
-        if (decodedToken.exp < new Date().getTime()) {
+        const decodedToken = JSON.parse(atob(accessToken.split('.')[1]));
+        if (`${decodedToken.exp}` < `${new Date().getTime()}`) {
             localStorage.removeItem('accessToken');
             return true;
         }
