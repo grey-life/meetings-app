@@ -15,7 +15,7 @@ const Navbar = () => {
     };
 
     return (
-        <nav className="navbar navbar-expand navbar-dark bg-primary">
+        <nav className="navbar fixed-top navbar-expand navbar-dark bg-primary">
             <a className="navbar-brand" href="/">Meetings App</a>
             <div className="navbar-collapse collapse">
                 <ul className="navbar-nav">
