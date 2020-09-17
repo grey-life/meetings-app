@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import Navbar from '../../components/Navbar';
 import SectionHeading from '../../components/SectionHeading';
 import Container from '../../components/Container';
@@ -7,7 +7,8 @@ import Routes from './routes';
 import withAuthentication from '../../components/WithAuthenication';
 
 const Meetings = () => {
-    const [active, setActive] = useState(true);
+    const history = useHistory();
+    const [active, setActive] = useState(history.location.pathname === '/meetings');
 
     const handleClick = (event) => {
         if (!event.target.classList.contains('active')) {
