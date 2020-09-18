@@ -61,9 +61,16 @@ const Signup = () => {
             confirmPassword: '',
         },
         validate,
-        onSubmit: async ({ email: username, ...rest }) => {
+        onSubmit: async ({
+            email: username,
+            firstName: firstname,
+            lastName: lastname,
+            ...rest
+        }) => {
             try {
-                await signup({ username, ...rest });
+                await signup({
+                    username, firstname, lastname, ...rest,
+                });
                 history.push('/login');
             } catch (err) {
                 setError(err.message);
