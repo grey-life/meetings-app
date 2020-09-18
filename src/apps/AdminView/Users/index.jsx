@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import MaterialTable from 'material-table';
 import { compose } from 'redux';
 import Container from '../../../components/Container';
@@ -7,7 +7,6 @@ import SectionHeading from '../../../components/SectionHeading';
 import TableIcons from '../../../components/TableIcons';
 import withAuthentication from '../../../components/WithAuthenication';
 import withAuthorization from '../../../components/WithAuthorization';
-import { getUsers } from '../../../services/getDetails';
 
 const Users = () => {
     const columns = [
@@ -19,23 +18,12 @@ const Users = () => {
     const [error, setError] = useState(null);
     const [data, setData] = useState([
         {
-            name: 'Mehmet', surname: 'Baran', birthYear: 1987, birthCity: 63,
+            firstname: 'Victoria', lastname: 'Constantine', username: 'victoria@mail.com',
         },
         {
-            name: 'Zerya Betül', surname: 'Baran', birthYear: 2017, birthCity: 34,
+            firstname: 'John', lastname: 'Constantine', username: 'john.c@mail.com',
         },
     ]);
-
-    useEffect(() => {
-        (async () => {
-            try {
-                const result = await getUsers();
-                setData(result);
-            } catch (err) {
-                setError(err.message);
-            }
-        })();
-    }, []);
 
     return (
         <>
@@ -67,16 +55,23 @@ const Users = () => {
                                                     resolve();
                                                 }, 1000);
                                             },
+                                            (reject) => {
+                                                setError(reject);
+                                            },
                                         ),
-                                        onRowDelete: (oldData) => new Promise((resolve) => {
-                                            setTimeout(() => {
-                                                const dataDelete = [...data];
-                                                const index = oldData.tableData.id;
-                                                dataDelete.splice(index, 1);
-                                                setData([...dataDelete]);
-                                                resolve();
-                                            }, 1000);
-                                        }),
+                                        onRowDelete: (oldData) => new Promise(
+                                            (resolve) => {
+                                                setTimeout(() => {
+                                                    const dataDelete = [...data];
+                                                    const index = oldData.tableData.id;
+                                                    dataDelete.splice(index, 1);
+                                                    setData([...dataDelete]);
+                                                    resolve();
+                                                }, 1000);
+                                            }, (reject) => {
+                                                setError(reject);
+                                            },
+                                        ),
                                     }}
                                 />
                             )
