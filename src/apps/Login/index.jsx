@@ -40,7 +40,7 @@ const Login = () => {
             try {
                 const data = await login({ username, password });
                 dispatch(setAuth(data));
-                history.push('/calendar');
+                history.push('/');
             } catch (err) {
                 setError(err.message);
             }
