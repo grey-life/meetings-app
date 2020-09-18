@@ -5,7 +5,7 @@ import withAuthentication from '../../components/WithAuthenication';
 
 const Teams = () => (
     <>
-        <Navbar />
+        <Navbar userRole="user" selected="Teams" />
         <Container>
             Teams coming soon!
         </Container>

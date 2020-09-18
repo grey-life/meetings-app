@@ -22,7 +22,7 @@ const Meetings = () => {
 
     return (
         <>
-            <Navbar />
+            <Navbar userRole="user" selected="Meetings" />
             <Container>
                 <div className="row d-flex justify-content-center">
                     <SectionHeading title="Meetings" />

@@ -1,0 +1,30 @@
+{
+    "user": [
+        {
+            "name": "Calendar",
+            "link": "/calendar"
+        },
+        {
+            "name": "Meetings",
+            "link": "/meetings"
+        },
+        {
+            "name": "Teams",
+            "link": "/teams"
+        }
+    ],
+    "admin": [
+        {
+            "name": "Users",
+            "link": "/admin/users"
+        },
+        {
+            "name": "Meetings",
+            "link": "/admin/meetings"
+        },
+        {
+            "name": "Teams",
+            "link": "/admin/teams"
+        }
+    ]
+}

@@ -1,12 +1,15 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import navItems from './navItems.json';
 import { setAuth } from '../../redux/userSlice';
 import { logout } from '../../services/authentication';
 
-const Navbar = () => {
+const Navbar = ({ userRole, selected }) => {
     const history = useHistory();
     const dispatch = useDispatch();
+    const itemList = navItems[userRole];
 
     const handleSignout = () => {
         logout();
@@ -19,15 +22,13 @@ const Navbar = () => {
             <a className="navbar-brand" href="/">Meetings App</a>
             <div className="navbar-collapse collapse">
                 <ul className="navbar-nav">
-                    <li className="nav-item">
-                        <Link className="nav-link" to="/calendar">Calendar</Link>
-                    </li>
-                    <li className="nav-item">
-                        <Link className="nav-link" to="/meetings">Meetings</Link>
-                    </li>
-                    <li className="nav-item">
-                        <Link className="nav-link" to="/teams">Teams</Link>
-                    </li>
+                    {
+                        itemList.map((item) => (
+                            <li key={item.name} className={`nav-item ${(item.name === selected) && 'active'}`}>
+                                <Link className="nav-link" to={item.link}>{item.name}</Link>
+                            </li>
+                        ))
+                    }
                 </ul>
             </div>
             <button
