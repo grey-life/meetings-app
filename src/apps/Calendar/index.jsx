@@ -47,7 +47,7 @@ const Calendar = () => {
 
     return (
         <>
-            <Navbar />
+            <Navbar userRole="user" selected="Calendar" />
             <Container>
                 <div className="row d-flex justify-content-center">
                     <SectionHeading title="Calendar" />
