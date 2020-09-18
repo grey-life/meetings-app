@@ -6,11 +6,16 @@ const setInitialState = () => {
     const initalState = {
         authenticationStatus: false,
         claims: null,
+        username: '',
+        admin: false,
     };
     const token = localStorage.getItem('accessToken');
     if (token && !checkTokenExpiration()) {
-        initalState.claims = JSON.parse(atob(token.split('.')[1]));
+        const parsedToken = JSON.parse(atob(token.split('.')[1]));
+        initalState.claims = parsedToken;
         initalState.authenticationStatus = true;
+        initalState.username = parsedToken.username;
+        initalState.admin = parsedToken.admin;
     }
     return initalState;
 };
@@ -24,7 +29,10 @@ const UserSlice = createSlice({
         setAuth: (state, { payload }) => {
             if (payload.token) {
                 try {
-                    state.claims = JSON.parse(atob(payload.token.split('.')[1]));
+                    const parsedToken = JSON.parse(atob(payload.token.split('.')[1]));
+                    state.claims = parsedToken;
+                    state.username = parsedToken.username;
+                    state.admin = parsedToken.admin;
                     state.authenticationStatus = true;
                 } catch (error) {
                     state.claims = null;
