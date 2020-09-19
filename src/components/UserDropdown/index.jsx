@@ -1,0 +1,36 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable react/jsx-props-no-spreading */
+
+import React, { useState } from 'react';
+import TextField from '@material-ui/core/TextField';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+
+const CheckboxesTags = (props) => {
+    const {
+        value, onChange, disabled, userList,
+    } = props;
+    const [selected, setSelected] = useState(value);
+
+    return (
+        <Autocomplete
+            multiple
+            options={userList}
+            size="small"
+            defaultValue={selected}
+            onChange={(event, selectedMembers) => {
+                onChange(selectedMembers);
+                setSelected(selectedMembers);
+            }}
+            disabled={disabled}
+            filterSelectedOptions
+            disableCloseOnSelect
+            getOptionLabel={(option) => option}
+            renderInput={(params) => (
+                <TextField
+                    {...params}
+                />
+            )}
+        />
+    );
+};
+export default CheckboxesTags;
