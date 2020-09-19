@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import MaterialTable from 'material-table';
 import { compose } from 'redux';
+import EmailVaidator from 'email-validator';
 import Container from '../../../components/Container';
 import Navbar from '../../../components/Navbar';
 import SectionHeading from '../../../components/SectionHeading';
@@ -10,9 +11,32 @@ import withAuthorization from '../../../components/WithAuthorization';
 
 const Users = () => {
     const columns = [
-        { title: 'First Name', field: 'firstname' },
-        { title: 'Last Name', field: 'lastname' },
-        { title: 'Email Id', field: 'username', type: 'email' },
+        {
+            title: 'First Name',
+            field: 'firstname',
+            validate: (rowData) => (rowData.firstname === '' ? { isValid: false, helperText: 'First Name cannot be empty' } : true),
+        },
+        {
+            title: 'Last Name',
+            field: 'lastname',
+            validate: (rowData) => (rowData.lastname === '' ? { isValid: false, helperText: 'Last Name cannot be empty' } : true),
+        },
+        {
+            title: 'Email Id',
+            field: 'username',
+            validate: (rowData) => {
+                const error = { isValid: false };
+                if (rowData.username === '') {
+                    error.helperText = 'Email Id cannot be empty';
+                    return error;
+                }
+                if (!EmailVaidator.validate(rowData.username)) {
+                    error.helperText = 'Invalid Email Id';
+                    return error;
+                }
+                return true;
+            },
+        },
     ];
 
     const [error, setError] = useState(null);
