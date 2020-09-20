@@ -35,8 +35,21 @@ const getCalendar = (date) => axios.get(
         throw new Error(error.message);
     });
 
+const getTeams = () => axios.get(
+    'http://localhost:5000/api/teams', {
+        headers: {
+            ...createAuthHeaders(),
+        },
+    },
+)
+    .then((response) => response.data)
+    .catch((error) => {
+        throw new Error(error.message);
+    });
+
 export {
     getUsers,
     getMeetings,
     getCalendar,
+    getTeams,
 };

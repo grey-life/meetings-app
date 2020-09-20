@@ -3,7 +3,7 @@ import moment from 'moment';
 import { useFormik } from 'formik';
 import { getUsers } from '../../../services/getDetails';
 import UserDropdown from '../UserDropdown';
-import addMeeting from '../../../services/addDetails';
+import { addMeeting } from '../../../services/addDetails';
 import padZeros from '../../../helpers/padZeros';
 
 const AddMeetings = () => {

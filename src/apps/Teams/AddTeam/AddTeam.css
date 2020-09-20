@@ -1,0 +1,11 @@
+.add-teams-btn {
+    text-align: center;
+    font-size: 64px;
+    width: inherit;
+    align-items: center;
+    justify-content: center;
+}
+
+.add-team-form {
+    width: 500px;
+}

@@ -15,6 +15,7 @@ const CheckboxesTags = (props) => {
         <Autocomplete
             multiple
             options={userList}
+            limitTags={1}
             size="small"
             defaultValue={selected}
             onChange={(event, selectedMembers) => {
