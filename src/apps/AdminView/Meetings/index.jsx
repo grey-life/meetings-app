@@ -9,18 +9,13 @@ import UserDropdown from '../../../components/UserDropdown';
 import TableIcons from '../../../components/TableIcons';
 import withAuthentication from '../../../components/WithAuthenication';
 import withAuthorization from '../../../components/WithAuthorization';
-import { getMeetingsAdmin } from '../../../services/getDetailsAdmin';
+import { getMeetingsAdmin, getUsersAdmin } from '../../../services/getDetailsAdmin';
 import { deleteMeeting } from '../../../services/deleteDetailsAdmin';
 import { editMeeting } from '../../../services/editDetailsAdmin';
 import padZeros from '../../../helpers/padZeros';
 
 const Meetings = () => {
-    const userList = [
-        'Adam',
-        'Jane',
-        'John',
-        'Victoria',
-    ];
+    const [userList, setUserList] = useState([]);
 
     const columns = [
         { title: 'Date', field: 'date', type: 'date' },
@@ -113,57 +108,63 @@ const Meetings = () => {
     const [error, setError] = useState(null);
     const [data, setData] = useState([]);
 
-    useEffect( () => {
+    useEffect(() => {
         async function fetchData() {
-            const result = await getMeetingsAdmin();
-            let dataProjected = [];
-            result.map((eachMeet => dataProjected.push({
-                ...eachMeet,
-                startTimeHours: parseInt(eachMeet.startTime.split(':')[0]),
-                startTimeMinutes: parseInt(eachMeet.startTime.split(':')[1]),
-                endTimeHours:  parseInt(eachMeet.endTime.split(':')[0]),
-                endTimeMinutes: parseInt(eachMeet.endTime.split(':')[1]),
-                id: eachMeet._id
-            })
-            ));
-            setData(dataProjected);
-        };
-        fetchData();
-    },[])
-
-    const deleteServiceHandler = async (meetToDel) => {
-        try {
-            const res = await deleteMeeting(meetToDel._id);
+            try {
+                const result = await getMeetingsAdmin();
+                const dataProjected = [];
+                result.map((({ _id: id, ...rest }) => dataProjected.push({
+                    ...rest,
+                    startTimeHours: parseInt(rest.startTime.split(':')[0], 10),
+                    startTimeMinutes: parseInt(rest.startTime.split(':')[1], 10),
+                    endTimeHours: parseInt(rest.endTime.split(':')[0], 10),
+                    endTimeMinutes: parseInt(rest.endTime.split(':')[1], 10),
+                    id,
+                })
+                ));
+                const users = await getUsersAdmin();
+                setUserList(users.map((user) => user.username));
+                setData(dataProjected);
+            } catch (err) {
+                setError(err.message);
+            }
         }
-        catch (err) {
+        fetchData();
+    }, []);
+
+    const deleteServiceHandler = async (meetToDelete) => {
+        const { id: meetingId } = meetToDelete;
+        try {
+            await deleteMeeting(meetingId);
+        } catch (err) {
             setError(err.message);
         }
-    }
+    };
 
     const editServiceHandler = async (toEdit) => {
         const newMeeting = {
-            attendees : toEdit.attendees,
+            attendees: toEdit.attendees,
             date: toEdit.date,
             description: toEdit.description,
             startTime: `${padZeros(toEdit.startTimeHours)}:${padZeros(toEdit.startTimeMinutes)}`,
             endTime: `${padZeros(toEdit.endTimeHours)}:${padZeros(toEdit.endTimeMinutes)}`,
 
-        }
+        };
+        const { id: meetingId } = toEdit;
         try {
-             const res = await editMeeting(toEdit._id, newMeeting);
-        }
-        catch (err) {
+            await editMeeting(meetingId, newMeeting);
+        } catch (err) {
             setError(err.message);
         }
-    }
+    };
 
     return (
         <>
             <Navbar userRole="admin" selected="Meetings" />
             <Container>
                 <div className="row d-flex justify-content-center">
-                    <SectionHeading title="Meetings" />
-                    <div className="col-8">
+                    <div className="col">
+                        <SectionHeading title="Meetings" />
                         {
                             error ? (
                                 <div className="alert alert-danger">
@@ -172,7 +173,7 @@ const Meetings = () => {
                             ) : (
                                 <MaterialTable
                                     icons={TableIcons}
-                                    title="Team Details"
+                                    title="Meeting Details"
                                     columns={columns}
                                     data={data}
                                     editable={{
@@ -181,7 +182,7 @@ const Meetings = () => {
                                                 setTimeout(() => {
                                                     const dataUpdate = [...data];
                                                     const index = oldData.tableData.id;
-                                                    editServiceHandler(newData)
+                                                    editServiceHandler(newData);
                                                     dataUpdate[index] = newData;
                                                     setData([...dataUpdate]);
 

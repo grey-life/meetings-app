@@ -9,18 +9,12 @@ import UserDropdown from '../../../components/UserDropdown';
 import TableIcons from '../../../components/TableIcons';
 import withAuthentication from '../../../components/WithAuthenication';
 import withAuthorization from '../../../components/WithAuthorization';
-import { getTeamsAdmin } from '../../../services/getDetailsAdmin';
+import { getTeamsAdmin, getUsersAdmin } from '../../../services/getDetailsAdmin';
 import { deleteTeam } from '../../../services/deleteDetailsAdmin';
 import { editTeam } from '../../../services/editDetailsAdmin';
 
 const Teams = () => {
-
-    const userList = [
-        'Adam',
-        'Jane',
-        'John',
-        'Victoria',
-    ];
+    const [userList, setUserList] = useState([]);
 
     const columns = [
         {
@@ -66,46 +60,52 @@ const Teams = () => {
     const [error, setError] = useState(null);
     const [data, setData] = useState([]);
 
-    useEffect(()=>{
+    useEffect(() => {
         async function fetchData() {
-            const result = await getTeamsAdmin();
-            let dataProjected = [];
-            result.map((eachTeam => dataProjected.push(eachTeam) ));
-            setData(result);
+            try {
+                const result = await getTeamsAdmin();
+                const dataProjected = [];
+                result.map(((eachTeam) => dataProjected.push(eachTeam)));
+                const users = await getUsersAdmin();
+                setUserList(users.map((user) => user.username));
+                setData(result);
+            } catch (err) {
+                setError(err.message);
+            }
         }
-        fetchData()
-    },[])
+        fetchData();
+    }, []);
 
     const deleteServiceHandler = async (teamToDel) => {
+        const { _id: teamId } = teamToDel;
         try {
-            const res = await deleteTeam(teamToDel._id);
-        }
-        catch (err) {
+            await deleteTeam(teamId);
+        } catch (err) {
             setError(err.message);
         }
-   }
-   const editServiceHandler = async (ToEdit) => {
-       const newTeam = {
-            members: ToEdit.members,
-            name: ToEdit.name,
-            shortname: ToEdit.shortname,
-            description:ToEdit.description
-        }
+    };
+    const editServiceHandler = async (toEdit) => {
+        const { _id: teamId } = toEdit;
+        const newTeam = {
+            members: toEdit.members,
+            name: toEdit.name,
+            shortname: toEdit.shortname,
+            description: toEdit.description,
+        };
         try {
-            const res = await editTeam(ToEdit._id, newTeam);
-        }
-        catch (err) {
+            await editTeam(teamId, newTeam);
+        } catch (err) {
             setError(err.message);
         }
-}
+    };
 
     return (
         <>
             <Navbar userRole="admin" selected="Teams" />
             <Container>
                 <div className="row d-flex justify-content-center">
-                    <SectionHeading title="Teams" />
-                    <div className="col-8">
+                    <div className="col">
+                        <SectionHeading title="Teams" />
                         {
                             error ? (
                                 <div className="alert alert-danger">
@@ -123,7 +123,7 @@ const Teams = () => {
                                                 setTimeout(() => {
                                                     const dataUpdate = [...data];
                                                     const index = oldData.tableData.id;
-                                                    editServiceHandler(newData) 
+                                                    editServiceHandler(newData);
                                                     dataUpdate[index] = newData;
                                                     setData([...dataUpdate]);
 
@@ -139,7 +139,7 @@ const Teams = () => {
                                                 setTimeout(() => {
                                                     const dataDelete = [...data];
                                                     const index = oldData.tableData.id;
-                                                    deleteServiceHandler(oldData)
+                                                    deleteServiceHandler(oldData);
                                                     dataDelete.splice(index, 1);
                                                     setData([...dataDelete]);
                                                     resolve();
