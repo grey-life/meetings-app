@@ -37,7 +37,7 @@ const getCalendar = (date) => axios.get(
     });
 
 const getTeams = () => axios.get(
-    `${serviceUrl}/api/teams`, {
+    `${cors}${serviceUrl}/api/teams`, {
         headers: {
             ...createAuthHeaders(),
         },
