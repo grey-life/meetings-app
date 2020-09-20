@@ -1,9 +1,9 @@
 import axios from 'axios';
 import createAuthHeaders from '../helpers/createAuthHeader';
-import { serviceUrl } from '../config.json';
+import { cors, serviceUrl } from '../config.json';
 
 const deleteUser = (userId) => axios.delete(
-    `${serviceUrl}/admin/users/${userId}`,
+    `${cors}${serviceUrl}/admin/users/${userId}`,
 
     {
         headers: {
@@ -17,7 +17,7 @@ const deleteUser = (userId) => axios.delete(
     });
 
 const deleteMeeting = (meetId) => axios.delete(
-    `${serviceUrl}/admin/meetings/${meetId}`,
+    `${cors}${serviceUrl}/admin/meetings/${meetId}`,
 
     {
         headers: {
@@ -31,7 +31,7 @@ const deleteMeeting = (meetId) => axios.delete(
     });
 
 const deleteTeam = (teamId) => axios.delete(
-    `${serviceUrl}/admin/teams/${teamId}`,
+    `${cors}${serviceUrl}/admin/teams/${teamId}`,
 
     {
         headers: {

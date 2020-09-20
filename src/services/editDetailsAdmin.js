@@ -1,9 +1,9 @@
 import axios from 'axios';
 import createAuthHeaders from '../helpers/createAuthHeader';
-import { serviceUrl } from '../config.json';
+import { cors, serviceUrl } from '../config.json';
 
 const editTeam = (teamId, newTeam) => axios.put(
-    `${serviceUrl}/admin/teams/${teamId}`,
+    `${cors}${serviceUrl}/admin/teams/${teamId}`,
     {
         ...newTeam,
     },
@@ -19,7 +19,7 @@ const editTeam = (teamId, newTeam) => axios.put(
     });
 
 const editMeeting = (meetingId, newMeeting) => axios.put(
-    `${serviceUrl}/admin/meetings/${meetingId}`,
+    `${cors}${serviceUrl}/admin/meetings/${meetingId}`,
     {
         ...newMeeting,
     },
@@ -35,7 +35,7 @@ const editMeeting = (meetingId, newMeeting) => axios.put(
     });
 
 const editUser = (userId, newUser) => axios.put(
-    `${serviceUrl}/admin/users/${userId}`,
+    `${cors}${serviceUrl}/admin/users/${userId}`,
     {
         ...newUser,
     },

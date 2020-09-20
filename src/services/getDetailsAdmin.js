@@ -1,8 +1,8 @@
 import axios from 'axios';
 import createAuthHeaders from '../helpers/createAuthHeader';
-import { serviceUrl } from '../config.json';
+import { cors, serviceUrl } from '../config.json';
 
-const getUsersAdmin = () => axios.get(`${serviceUrl}/admin/users`, {
+const getUsersAdmin = () => axios.get(`${cors}${serviceUrl}/admin/users`, {
     headers: {
         ...createAuthHeaders(),
     },
@@ -13,7 +13,7 @@ const getUsersAdmin = () => axios.get(`${serviceUrl}/admin/users`, {
     });
 
 const getMeetingsAdmin = () => axios.get(
-    `${serviceUrl}/admin/meetings`, {
+    `${cors}${serviceUrl}/admin/meetings`, {
         headers: {
             ...createAuthHeaders(),
         },
@@ -25,7 +25,7 @@ const getMeetingsAdmin = () => axios.get(
     });
 
 const getTeamsAdmin = () => axios.get(
-    `${serviceUrl}/admin/teams`, {
+    `${cors}${serviceUrl}/admin/teams`, {
         headers: {
             ...createAuthHeaders(),
         },

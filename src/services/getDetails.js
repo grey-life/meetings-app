@@ -1,8 +1,8 @@
 import axios from 'axios';
 import createAuthHeaders from '../helpers/createAuthHeader';
-import { serviceUrl } from '../config.json';
+import { cors, serviceUrl } from '../config.json';
 
-const getUsers = () => axios.get(`${serviceUrl}/users`, {
+const getUsers = () => axios.get(`${cors}${serviceUrl}/users`, {
     headers: {
         ...createAuthHeaders(),
     },
@@ -13,7 +13,7 @@ const getUsers = () => axios.get(`${serviceUrl}/users`, {
     });
 
 const getMeetings = ({ date, search }) => axios.get(
-    `${serviceUrl}/api/meetings?date=${date}&search=${search}`, {
+    `${cors}${serviceUrl}/api/meetings?date=${date}&search=${search}`, {
         headers: {
             ...createAuthHeaders(),
         },
@@ -25,7 +25,7 @@ const getMeetings = ({ date, search }) => axios.get(
     });
 
 const getCalendar = (date) => axios.get(
-    `${serviceUrl}/api/calendar?date=${date}`, {
+    `${cors}${serviceUrl}/api/calendar?date=${date}`, {
         headers: {
             ...createAuthHeaders(),
         },
