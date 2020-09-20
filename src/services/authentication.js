@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { serviceUrl } from '../config.json';
+import { cors, serviceUrl } from '../config.json';
 
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
@@ -21,7 +21,7 @@ const checkTokenExpiration = () => {
     return true;
 };
 
-const login = (credentials) => axios.post(`${serviceUrl}/users/login/`, {
+const login = (credentials) => axios.post(`${cors}${serviceUrl}/users/login/`, {
     ...credentials,
 })
     .then(onSuccess)

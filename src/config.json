@@ -1,3 +1,4 @@
 {
+    "cors": "https://cors-anywhere.herokuapp.com/",
     "serviceUrl": "http://meetingsservice-env.eba-asrzvekw.ap-south-1.elasticbeanstalk.com"
 }
