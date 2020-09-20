@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import MaterialTable from 'material-table';
 import { compose } from 'redux';
 import EmailVaidator from 'email-validator';
@@ -8,6 +8,9 @@ import SectionHeading from '../../../components/SectionHeading';
 import TableIcons from '../../../components/TableIcons';
 import withAuthentication from '../../../components/WithAuthenication';
 import withAuthorization from '../../../components/WithAuthorization';
+import { getUsersAdmin, projectFields } from '../../../services/getDetailsAdmin';
+import { deleteUser } from '../../../services/deleteDetailsAdmin';
+import { editUser } from '../../../services/editDetailsAdmin';
 
 const Users = () => {
     const columns = [
@@ -40,14 +43,37 @@ const Users = () => {
     ];
 
     const [error, setError] = useState(null);
-    const [data, setData] = useState([
-        {
-            firstname: 'Victoria', lastname: 'Constantine', username: 'victoria@mail.com',
-        },
-        {
-            firstname: 'John', lastname: 'Constantine', username: 'john.c@mail.com',
-        },
-    ]);
+    const [data, setData] = useState([]);
+
+    useEffect(async () => {
+        async function fetchData() {
+            const result = await getUsersAdmin();
+            setData(result)
+        };
+        fetchData();
+    },[]);
+
+    const deleteServiceHandler = async (toDel) => { 
+         try {
+            const res = await deleteUser(toDel._id);
+        }
+        catch (err) {
+            setError(err.message);
+        }
+}
+    const editServiceHandler = async (toEdit) => {
+        const newUser = {
+            firstname : toEdit.firstname,
+            lastname  : toEdit.lastname,
+            username  : toEdit.username
+        }
+        try {
+            const res = await editUser(toEdit._id, newUser);
+        }
+        catch (err) {
+            setError(err.message);
+        }
+    }
 
     return (
         <>
@@ -73,6 +99,7 @@ const Users = () => {
                                                 setTimeout(() => {
                                                     const dataUpdate = [...data];
                                                     const index = oldData.tableData.id;
+                                                    editServiceHandler(newData) 
                                                     dataUpdate[index] = newData;
                                                     setData([...dataUpdate]);
 
@@ -87,7 +114,8 @@ const Users = () => {
                                             (resolve) => {
                                                 setTimeout(() => {
                                                     const dataDelete = [...data];
-                                                    const index = oldData.tableData.id;
+                                                    const index = oldData.tableData.id; 
+                                                    deleteServiceHandler(oldData)
                                                     dataDelete.splice(index, 1);
                                                     setData([...dataDelete]);
                                                     resolve();

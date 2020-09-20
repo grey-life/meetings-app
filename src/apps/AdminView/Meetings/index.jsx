@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import MaterialTable from 'material-table';
 import { compose } from 'redux';
 import Container from '../../../components/Container';
@@ -9,6 +9,10 @@ import UserDropdown from '../../../components/UserDropdown';
 import TableIcons from '../../../components/TableIcons';
 import withAuthentication from '../../../components/WithAuthenication';
 import withAuthorization from '../../../components/WithAuthorization';
+import { getMeetingsAdmin } from '../../../services/getDetailsAdmin';
+import { deleteMeeting } from '../../../services/deleteDetailsAdmin';
+import { editMeeting } from '../../../services/editDetailsAdmin';
+import padZeros from '../../../helpers/padZeros';
 
 const Meetings = () => {
     const userList = [
@@ -107,26 +111,51 @@ const Meetings = () => {
     ];
 
     const [error, setError] = useState(null);
-    const [data, setData] = useState([
-        {
-            date: '2020-09-18',
-            startTimeHours: +'09',
-            startTimeMinutes: +'00',
-            endTimeHours: +'10',
-            endTimeMinutes: +'00',
-            description: 'Morning Standup',
-            attendees: ['John', 'Victoria'],
-        },
-        {
-            date: '2020-09-18',
-            startTimeHours: +'12',
-            startTimeMinutes: +'00',
-            endTimeHours: +'01',
-            endTimeMinutes: +'00',
-            description: 'Afternoon Standup',
-            attendees: ['John', 'Victoria'],
-        },
-    ]);
+    const [data, setData] = useState([]);
+
+    useEffect( () => {
+        async function fetchData() {
+            const result = await getMeetingsAdmin();
+            let dataProjected = [];
+            result.map((eachMeet => dataProjected.push({
+                ...eachMeet,
+                startTimeHours: parseInt(eachMeet.startTime.split(':')[0]),
+                startTimeMinutes: parseInt(eachMeet.startTime.split(':')[1]),
+                endTimeHours:  parseInt(eachMeet.endTime.split(':')[0]),
+                endTimeMinutes: parseInt(eachMeet.endTime.split(':')[1]),
+                id: eachMeet._id
+            })
+            ));
+            setData(dataProjected);
+        };
+        fetchData();
+    },[])
+
+    const deleteServiceHandler = async (meetToDel) => {
+        try {
+            const res = await deleteMeeting(meetToDel._id);
+        }
+        catch (err) {
+            setError(err.message);
+        }
+    }
+
+    const editServiceHandler = async (toEdit) => {
+        const newMeeting = {
+            attendees : toEdit.attendees,
+            date: toEdit.date,
+            description: toEdit.description,
+            startTime: `${padZeros(toEdit.startTimeHours)}:${padZeros(toEdit.startTimeMinutes)}`,
+            endTime: `${padZeros(toEdit.endTimeHours)}:${padZeros(toEdit.endTimeMinutes)}`,
+
+        }
+        try {
+             const res = await editMeeting(toEdit._id, newMeeting);
+        }
+        catch (err) {
+            setError(err.message);
+        }
+    }
 
     return (
         <>
@@ -152,6 +181,7 @@ const Meetings = () => {
                                                 setTimeout(() => {
                                                     const dataUpdate = [...data];
                                                     const index = oldData.tableData.id;
+                                                    editServiceHandler(newData)
                                                     dataUpdate[index] = newData;
                                                     setData([...dataUpdate]);
 
@@ -167,6 +197,7 @@ const Meetings = () => {
                                                 setTimeout(() => {
                                                     const dataDelete = [...data];
                                                     const index = oldData.tableData.id;
+                                                    deleteServiceHandler(oldData);
                                                     dataDelete.splice(index, 1);
                                                     setData([...dataDelete]);
                                                     resolve();

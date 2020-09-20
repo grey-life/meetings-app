@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import MaterialTable from 'material-table';
 import { compose } from 'redux';
 import Container from '../../../components/Container';
@@ -9,22 +9,11 @@ import UserDropdown from '../../../components/UserDropdown';
 import TableIcons from '../../../components/TableIcons';
 import withAuthentication from '../../../components/WithAuthenication';
 import withAuthorization from '../../../components/WithAuthorization';
+import { getTeamsAdmin } from '../../../services/getDetailsAdmin';
+import { deleteTeam } from '../../../services/deleteDetailsAdmin';
+import { editTeam } from '../../../services/editDetailsAdmin';
 
 const Teams = () => {
-    const [data, setData] = useState([
-        {
-            name: 'Core Team',
-            shortname: '@core-team',
-            description: 'These are the core members of Meetings App',
-            members: ['John', 'Victoria'],
-        },
-        {
-            name: 'Design Team',
-            shortname: '@design-team',
-            description: 'The design team behind Meetings App',
-            members: ['Adam', 'Jane'],
-        },
-    ]);
 
     const userList = [
         'Adam',
@@ -75,6 +64,40 @@ const Teams = () => {
     ];
 
     const [error, setError] = useState(null);
+    const [data, setData] = useState([]);
+
+    useEffect(()=>{
+        async function fetchData() {
+            const result = await getTeamsAdmin();
+            let dataProjected = [];
+            result.map((eachTeam => dataProjected.push(eachTeam) ));
+            setData(result);
+        }
+        fetchData()
+    },[])
+
+    const deleteServiceHandler = async (teamToDel) => {
+        try {
+            const res = await deleteTeam(teamToDel._id);
+        }
+        catch (err) {
+            setError(err.message);
+        }
+   }
+   const editServiceHandler = async (ToEdit) => {
+       const newTeam = {
+            members: ToEdit.members,
+            name: ToEdit.name,
+            shortname: ToEdit.shortname,
+            description:ToEdit.description
+        }
+        try {
+            const res = await editTeam(ToEdit._id, newTeam);
+        }
+        catch (err) {
+            setError(err.message);
+        }
+}
 
     return (
         <>
@@ -100,6 +123,7 @@ const Teams = () => {
                                                 setTimeout(() => {
                                                     const dataUpdate = [...data];
                                                     const index = oldData.tableData.id;
+                                                    editServiceHandler(newData) 
                                                     dataUpdate[index] = newData;
                                                     setData([...dataUpdate]);
 
@@ -115,6 +139,7 @@ const Teams = () => {
                                                 setTimeout(() => {
                                                     const dataDelete = [...data];
                                                     const index = oldData.tableData.id;
+                                                    deleteServiceHandler(oldData)
                                                     dataDelete.splice(index, 1);
                                                     setData([...dataDelete]);
                                                     resolve();
