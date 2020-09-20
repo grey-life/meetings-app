@@ -1,8 +1,9 @@
 import axios from 'axios';
 import createAuthHeaders from '../helpers/createAuthHeader';
+import { serviceUrl } from '../config.json';
 
 const addAttendees = (meetingId, attendees) => axios.patch(
-    `http://localhost:5000/api/meetings/${meetingId}?action=add_attendees`,
+    `${serviceUrl}/api/meetings/${meetingId}?action=add_attendees`,
     {
         attendees,
     },
@@ -18,7 +19,7 @@ const addAttendees = (meetingId, attendees) => axios.patch(
     });
 
 const excuseYourself = (meetingId) => axios.patch(
-    `http://localhost:5000/api/meetings/${meetingId}?action=excuse_yourself`,
+    `${serviceUrl}/api/meetings/${meetingId}?action=excuse_yourself`,
     {},
     {
         headers: {
@@ -32,7 +33,7 @@ const excuseYourself = (meetingId) => axios.patch(
     });
 
 const leaveTeam = (teamId) => axios.patch(
-    `http://localhost:5000/api/teams/${teamId}?action=excuse_yourself`,
+    `${serviceUrl}/api/teams/${teamId}?action=excuse_yourself`,
     {},
     {
         headers: {
@@ -46,7 +47,7 @@ const leaveTeam = (teamId) => axios.patch(
     });
 
 const addMembers = (teamId, members) => axios.patch(
-    `http://localhost:5000/api/teams/${teamId}?action=add_members`,
+    `${serviceUrl}/api/teams/${teamId}?action=add_members`,
     {
         members,
     },

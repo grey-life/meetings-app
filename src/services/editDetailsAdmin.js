@@ -1,8 +1,9 @@
 import axios from 'axios';
 import createAuthHeaders from '../helpers/createAuthHeader';
+import { serviceUrl } from '../config.json';
 
 const editTeam = (teamId, newTeam) => axios.put(
-    `http://localhost:5000/admin/teams/${teamId}`,
+    `${serviceUrl}/admin/teams/${teamId}`,
     {
         ...newTeam,
     },
@@ -14,11 +15,11 @@ const editTeam = (teamId, newTeam) => axios.put(
 )
     .then((response) => response.data)
     .catch((error) => {
-        throw new Error(error.message)
+        throw new Error(error.message);
     });
 
 const editMeeting = (meetingId, newMeeting) => axios.put(
-    `http://localhost:5000/admin/meetings/${meetingId}`,
+    `${serviceUrl}/admin/meetings/${meetingId}`,
     {
         ...newMeeting,
     },
@@ -30,11 +31,11 @@ const editMeeting = (meetingId, newMeeting) => axios.put(
 )
     .then((response) => response.data)
     .catch((error) => {
-        throw new Error(error.message)
+        throw new Error(error.message);
     });
 
 const editUser = (userId, newUser) => axios.put(
-    `http://localhost:5000/admin/users/${userId}`,
+    `${serviceUrl}/admin/users/${userId}`,
     {
         ...newUser,
     },
@@ -46,11 +47,11 @@ const editUser = (userId, newUser) => axios.put(
 )
     .then((response) => response.data)
     .catch((error) => {
-        throw new Error(error.message)
+        throw new Error(error.message);
     });
 
 export {
     editTeam,
     editMeeting,
-    editUser
+    editUser,
 };

@@ -1,8 +1,9 @@
 import axios from 'axios';
+import { serviceUrl } from '../config.json';
 import createAuthHeaders from '../helpers/createAuthHeader';
 
 const addMeeting = (meeting) => axios.post(
-    'http://localhost:5000/api/meetings',
+    `${serviceUrl}/api/meetings`,
     {
         ...meeting,
     },
@@ -18,7 +19,7 @@ const addMeeting = (meeting) => axios.post(
     });
 
 const addTeam = (team) => axios.post(
-    'http://localhost:5000/api/teams',
+    `${serviceUrl}/api/teams`,
     {
         ...team,
     },

@@ -1,6 +1,7 @@
 import axios from 'axios';
+import { serviceUrl } from '../config.json';
 
-const signup = (signupCredentials) => axios.post('http://localhost:5000/users/signup', {
+const signup = (signupCredentials) => axios.post(`${serviceUrl}/users/signup`, {
     ...signupCredentials,
 })
     .then(() => 'Registration Successful!')

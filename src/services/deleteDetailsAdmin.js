@@ -1,9 +1,10 @@
 import axios from 'axios';
 import createAuthHeaders from '../helpers/createAuthHeader';
+import { serviceUrl } from '../config.json';
 
-const deleteUser = (userId) => axios.delete( //console.log('services:', userId)
-    `http://localhost:5000/admin/users/${userId}`,
-    
+const deleteUser = (userId) => axios.delete(
+    `${serviceUrl}/admin/users/${userId}`,
+
     {
         headers: {
             ...createAuthHeaders(),
@@ -15,9 +16,9 @@ const deleteUser = (userId) => axios.delete( //console.log('services:', userId)
         throw new Error(error.message);
     });
 
-const deleteMeeting = (meetId) => axios.delete( 
-    `http://localhost:5000/admin/meetings/${meetId}`,
-    
+const deleteMeeting = (meetId) => axios.delete(
+    `${serviceUrl}/admin/meetings/${meetId}`,
+
     {
         headers: {
             ...createAuthHeaders(),
@@ -29,9 +30,9 @@ const deleteMeeting = (meetId) => axios.delete(
         throw new Error(error.message);
     });
 
-const deleteTeam = (teamId) => axios.delete( 
-    `http://localhost:5000/admin/teams/${teamId}`,
-    
+const deleteTeam = (teamId) => axios.delete(
+    `${serviceUrl}/admin/teams/${teamId}`,
+
     {
         headers: {
             ...createAuthHeaders(),
@@ -43,9 +44,8 @@ const deleteTeam = (teamId) => axios.delete(
         throw new Error(error.message);
     });
 
-    
 export {
     deleteUser,
     deleteMeeting,
-    deleteTeam
+    deleteTeam,
 };
