@@ -8,7 +8,7 @@ import SectionHeading from '../../../components/SectionHeading';
 import TableIcons from '../../../components/TableIcons';
 import withAuthentication from '../../../components/WithAuthenication';
 import withAuthorization from '../../../components/WithAuthorization';
-import { getUsersAdmin, projectFields } from '../../../services/getDetailsAdmin';
+import { getUsersAdmin } from '../../../services/getDetailsAdmin';
 import { deleteUser } from '../../../services/deleteDetailsAdmin';
 import { editUser } from '../../../services/editDetailsAdmin';
 
@@ -45,43 +45,43 @@ const Users = () => {
     const [error, setError] = useState(null);
     const [data, setData] = useState([]);
 
-    useEffect(async () => {
-        async function fetchData() {
+    useEffect(() => {
+        const fetchData = async () => {
             const result = await getUsersAdmin();
-            setData(result)
+            setData(result);
         };
         fetchData();
-    },[]);
+    }, []);
 
-    const deleteServiceHandler = async (toDel) => { 
-         try {
-            const res = await deleteUser(toDel._id);
-        }
-        catch (err) {
-            setError(err.message);
-        }
-}
-    const editServiceHandler = async (toEdit) => {
-        const newUser = {
-            firstname : toEdit.firstname,
-            lastname  : toEdit.lastname,
-            username  : toEdit.username
-        }
+    const deleteServiceHandler = async ({ _id: userId }) => {
         try {
-            const res = await editUser(toEdit._id, newUser);
-        }
-        catch (err) {
+            await deleteUser(userId);
+        } catch (err) {
             setError(err.message);
         }
-    }
+    };
+
+    const editServiceHandler = async (toEdit) => {
+        const { _id: userID } = toEdit;
+        const newUser = {
+            firstname: toEdit.firstname,
+            lastname: toEdit.lastname,
+            username: toEdit.username,
+        };
+        try {
+            await editUser(userID, newUser);
+        } catch (err) {
+            setError(err.message);
+        }
+    };
 
     return (
         <>
             <Navbar userRole="admin" selected="Users" />
             <Container>
                 <div className="row d-flex justify-content-center">
-                    <SectionHeading title="Users" />
-                    <div className="col-8">
+                    <div className="col">
+                        <SectionHeading title="Users" />
                         {
                             error ? (
                                 <div className="alert alert-danger">
@@ -99,7 +99,7 @@ const Users = () => {
                                                 setTimeout(() => {
                                                     const dataUpdate = [...data];
                                                     const index = oldData.tableData.id;
-                                                    editServiceHandler(newData) 
+                                                    editServiceHandler(newData);
                                                     dataUpdate[index] = newData;
                                                     setData([...dataUpdate]);
 
@@ -114,8 +114,8 @@ const Users = () => {
                                             (resolve) => {
                                                 setTimeout(() => {
                                                     const dataDelete = [...data];
-                                                    const index = oldData.tableData.id; 
-                                                    deleteServiceHandler(oldData)
+                                                    const index = oldData.tableData.id;
+                                                    deleteServiceHandler(oldData);
                                                     dataDelete.splice(index, 1);
                                                     setData([...dataDelete]);
                                                     resolve();
