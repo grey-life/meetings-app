@@ -1,10 +1,11 @@
 import axios from 'axios';
 import createAuthHeaders from '../helpers/createAuthHeader';
+
 const protocol = 'http://';
 const link = 'localhost:5000';
-const base_url = protocol+link;
+const baseUrl = protocol + link;
 
-const getUsersAdmin = () => axios.get(base_url+'/admin/users', {
+const getUsersAdmin = () => axios.get(`${baseUrl}/admin/users`, {
     headers: {
         ...createAuthHeaders(),
     },
@@ -15,7 +16,7 @@ const getUsersAdmin = () => axios.get(base_url+'/admin/users', {
     });
 
 const getMeetingsAdmin = () => axios.get(
-    base_url+'/admin/meetings', {
+    `${baseUrl}/admin/meetings`, {
         headers: {
             ...createAuthHeaders(),
         },
@@ -27,7 +28,7 @@ const getMeetingsAdmin = () => axios.get(
     });
 
 const getTeamsAdmin = () => axios.get(
-    base_url+`/admin/teams`, {
+    `${baseUrl}/admin/teams`, {
         headers: {
             ...createAuthHeaders(),
         },
@@ -38,13 +39,8 @@ const getTeamsAdmin = () => axios.get(
         throw new Error(error.message);
     });
 
-const projectFields = (obj, projection) => {
-    return Object.keys(projection).reduce((a, e) => { a[e] = obj[e]; return a; }, {});
-}
-
 export {
     getUsersAdmin,
     getMeetingsAdmin,
     getTeamsAdmin,
-    projectFields
 };
