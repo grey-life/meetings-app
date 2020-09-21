@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
 import UserDropdown from '../../components/UserDropdown';
 import { leaveTeam, addMembers } from '../../services/updateDetails';
 
@@ -11,6 +12,15 @@ const Team = ({ team, userList, removeTeam }) => {
         const { _id: teamId } = team;
         try {
             addMembers(teamId, members);
+            toast.success('Team Updated', {
+                position: 'bottom-center',
+                autoClose: 1500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
         } catch (err) {
             setError(err);
         }
@@ -20,6 +30,15 @@ const Team = ({ team, userList, removeTeam }) => {
         const { _id: teamId } = team;
         try {
             await leaveTeam(teamId);
+            toast.error('You have left the Team', {
+                position: 'top-center',
+                autoClose: 1500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
             removeTeam();
         } catch (err) {
             setError(err);
@@ -57,6 +76,7 @@ const Team = ({ team, userList, removeTeam }) => {
                         </div>
                     )
                 }
+                <ToastContainer />
                 <button
                     type="button"
                     className="btn btn-primary"

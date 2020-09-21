@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 import { useFormik } from 'formik';
+import { ToastContainer, toast } from 'react-toastify';
 import { getUsers } from '../../../services/getDetails';
 import UserDropdown from '../UserDropdown';
 import { addMeeting } from '../../../services/addDetails';
@@ -79,7 +80,17 @@ const AddMeetings = () => {
             };
             try {
                 await addMeeting(meeting);
+                toast.success('Meeting Added Succesfully', {
+                    position: 'bottom-center',
+                    autoClose: 1500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
                 resetForm({});
+                setAttendees([]);
             } catch (err) {
                 setError(err.message);
             }
@@ -203,6 +214,7 @@ const AddMeetings = () => {
                         </div>
                     )
                 }
+                <ToastContainer />
                 <UserDropdown addAttendee={addAttendee} userEmails={userEmails} />
                 <button
                     type="submit"

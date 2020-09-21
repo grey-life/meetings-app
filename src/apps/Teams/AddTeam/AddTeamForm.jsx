@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from 'react';
 import { useFormik } from 'formik';
+import { ToastContainer, toast } from 'react-toastify';
 import UserDropdown from '../../../components/UserDropdown';
 import { addTeam } from '../../../services/addDetails';
 
@@ -42,6 +43,16 @@ const AddTeamForm = ({ userList, updateTeams }) => {
                     members,
                 });
                 updateTeams();
+                setMembers([]);
+                toast.success('Team Created Succesfully', {
+                    position: 'bottom-center',
+                    autoClose: 1500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
                 resetForm({});
             } catch (err) {
                 setError(err.message);
@@ -88,6 +99,7 @@ const AddTeamForm = ({ userList, updateTeams }) => {
                         {formik.errors.shortname}
                     </div>
                 )}
+                <ToastContainer />
                 <div className="form-group">
                     <label htmlFor="description">
                         Description
