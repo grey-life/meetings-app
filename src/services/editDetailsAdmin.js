@@ -1,6 +1,6 @@
 import axios from 'axios';
 import createAuthHeaders from '../helpers/createAuthHeader';
-import { cors, serviceUrl } from '../config.json';
+import { cors, serviceUrl, generalError } from '../config.json';
 
 const editTeam = (teamId, newTeam) => axios.put(
     `${cors}${serviceUrl}/admin/teams/${teamId}`,
@@ -14,8 +14,8 @@ const editTeam = (teamId, newTeam) => axios.put(
     },
 )
     .then((response) => response.data)
-    .catch((error) => {
-        throw new Error(error.message);
+    .catch(() => {
+        throw new Error(generalError);
     });
 
 const editMeeting = (meetingId, newMeeting) => axios.put(
@@ -30,8 +30,8 @@ const editMeeting = (meetingId, newMeeting) => axios.put(
     },
 )
     .then((response) => response.data)
-    .catch((error) => {
-        throw new Error(error.message);
+    .catch(() => {
+        throw new Error(generalError);
     });
 
 const editUser = (userId, newUser) => axios.put(
@@ -46,8 +46,8 @@ const editUser = (userId, newUser) => axios.put(
     },
 )
     .then((response) => response.data)
-    .catch((error) => {
-        throw new Error(error.message);
+    .catch(() => {
+        throw new Error(generalError);
     });
 
 export {

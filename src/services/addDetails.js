@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { cors, serviceUrl } from '../config.json';
+import { cors, serviceUrl, generalError } from '../config.json';
 import createAuthHeaders from '../helpers/createAuthHeader';
 
 const addMeeting = (meeting) => axios.post(
@@ -14,8 +14,8 @@ const addMeeting = (meeting) => axios.post(
     },
 )
     .then((response) => response.data)
-    .catch((error) => {
-        throw new Error(error.message);
+    .catch(() => {
+        throw new Error(generalError);
     });
 
 const addTeam = (team) => axios.post(
@@ -30,8 +30,8 @@ const addTeam = (team) => axios.post(
     },
 )
     .then((response) => response.data)
-    .catch((error) => {
-        throw new Error(error.message);
+    .catch(() => {
+        throw new Error(generalError);
     });
 
 export {

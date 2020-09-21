@@ -1,6 +1,6 @@
 import axios from 'axios';
 import createAuthHeaders from '../helpers/createAuthHeader';
-import { cors, serviceUrl } from '../config.json';
+import { cors, serviceUrl, generalError } from '../config.json';
 
 const addAttendees = (meetingId, attendees) => axios.patch(
     `${cors}${serviceUrl}/api/meetings/${meetingId}?action=add_attendees`,
@@ -14,8 +14,8 @@ const addAttendees = (meetingId, attendees) => axios.patch(
     },
 )
     .then((response) => response.data)
-    .catch((error) => {
-        throw new Error(error.message);
+    .catch(() => {
+        throw new Error(generalError);
     });
 
 const excuseYourself = (meetingId) => axios.patch(
@@ -28,8 +28,8 @@ const excuseYourself = (meetingId) => axios.patch(
     },
 )
     .then((response) => response.data)
-    .catch((error) => {
-        throw new Error(error.message);
+    .catch(() => {
+        throw new Error(generalError);
     });
 
 const leaveTeam = (teamId) => axios.patch(
@@ -42,8 +42,8 @@ const leaveTeam = (teamId) => axios.patch(
     },
 )
     .then((response) => response.data)
-    .catch((error) => {
-        throw new Error(error.message);
+    .catch(() => {
+        throw new Error(generalError);
     });
 
 const addMembers = (teamId, members) => axios.patch(
@@ -58,8 +58,8 @@ const addMembers = (teamId, members) => axios.patch(
     },
 )
     .then((response) => response.data)
-    .catch((error) => {
-        throw new Error(error.message);
+    .catch(() => {
+        throw new Error(generalError);
     });
 
 export {

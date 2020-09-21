@@ -1,6 +1,6 @@
 import axios from 'axios';
 import createAuthHeaders from '../helpers/createAuthHeader';
-import { cors, serviceUrl } from '../config.json';
+import { cors, serviceUrl, generalError } from '../config.json';
 
 const getUsersAdmin = () => axios.get(`${cors}${serviceUrl}/admin/users`, {
     headers: {
@@ -8,8 +8,8 @@ const getUsersAdmin = () => axios.get(`${cors}${serviceUrl}/admin/users`, {
     },
 })
     .then((response) => response.data)
-    .catch((error) => {
-        throw new Error(error.message);
+    .catch(() => {
+        throw new Error(generalError);
     });
 
 const getMeetingsAdmin = () => axios.get(
@@ -20,8 +20,8 @@ const getMeetingsAdmin = () => axios.get(
     },
 )
     .then((response) => response.data)
-    .catch((error) => {
-        throw new Error(error.message);
+    .catch(() => {
+        throw new Error(generalError);
     });
 
 const getTeamsAdmin = () => axios.get(
@@ -32,8 +32,8 @@ const getTeamsAdmin = () => axios.get(
     },
 )
     .then((response) => response.data)
-    .catch((error) => {
-        throw new Error(error.message);
+    .catch(() => {
+        throw new Error(generalError);
     });
 
 export {

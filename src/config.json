@@ -1,4 +1,5 @@
 {
     "cors": "https://cors-anywhere.herokuapp.com/",
-    "serviceUrl": "http://meetingsservice-env.eba-asrzvekw.ap-south-1.elasticbeanstalk.com"
+    "serviceUrl": "http://meetingsservice-env.eba-asrzvekw.ap-south-1.elasticbeanstalk.com",
+    "generalError": "Something went wrong!, try again!"
 }

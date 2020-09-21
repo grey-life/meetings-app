@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { cors, serviceUrl } from '../config.json';
+import { cors, serviceUrl, generalError } from '../config.json';
 
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
@@ -25,9 +25,10 @@ const login = (credentials) => axios.post(`${cors}${serviceUrl}/users/login/`, {
     ...credentials,
 })
     .then(onSuccess)
-    .catch((error) => {
-        throw new Error(error.message);
+    .catch(() => {
+        throw new Error(generalError);
     });
+
 const logout = () => {
     localStorage.removeItem('accessToken');
 };

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import createAuthHeaders from '../helpers/createAuthHeader';
-import { cors, serviceUrl } from '../config.json';
+import { cors, serviceUrl, generalError } from '../config.json';
 
 const deleteUser = (userId) => axios.delete(
     `${cors}${serviceUrl}/admin/users/${userId}`,
@@ -12,8 +12,8 @@ const deleteUser = (userId) => axios.delete(
     },
 )
     .then((response) => response.data)
-    .catch((error) => {
-        throw new Error(error.message);
+    .catch(() => {
+        throw new Error(generalError);
     });
 
 const deleteMeeting = (meetId) => axios.delete(
@@ -26,8 +26,8 @@ const deleteMeeting = (meetId) => axios.delete(
     },
 )
     .then((response) => response.data)
-    .catch((error) => {
-        throw new Error(error.message);
+    .catch(() => {
+        throw new Error(generalError);
     });
 
 const deleteTeam = (teamId) => axios.delete(
@@ -40,8 +40,8 @@ const deleteTeam = (teamId) => axios.delete(
     },
 )
     .then((response) => response.data)
-    .catch((error) => {
-        throw new Error(error.message);
+    .catch(() => {
+        throw new Error(generalError);
     });
 
 export {

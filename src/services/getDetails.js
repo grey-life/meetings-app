@@ -1,6 +1,6 @@
 import axios from 'axios';
 import createAuthHeaders from '../helpers/createAuthHeader';
-import { cors, serviceUrl } from '../config.json';
+import { cors, serviceUrl, generalError } from '../config.json';
 
 const getUsers = () => axios.get(`${cors}${serviceUrl}/users`, {
     headers: {
@@ -8,8 +8,8 @@ const getUsers = () => axios.get(`${cors}${serviceUrl}/users`, {
     },
 })
     .then((response) => response.data)
-    .catch((error) => {
-        throw new Error(error.message);
+    .catch(() => {
+        throw new Error(generalError);
     });
 
 const getMeetings = ({ date, search }) => axios.get(
@@ -20,8 +20,8 @@ const getMeetings = ({ date, search }) => axios.get(
     },
 )
     .then((response) => response.data)
-    .catch((error) => {
-        throw new Error(error.message);
+    .catch(() => {
+        throw new Error(generalError);
     });
 
 const getCalendar = (date) => axios.get(
@@ -32,8 +32,8 @@ const getCalendar = (date) => axios.get(
     },
 )
     .then((response) => response.data)
-    .catch((error) => {
-        throw new Error(error.message);
+    .catch(() => {
+        throw new Error(generalError);
     });
 
 const getTeams = () => axios.get(
@@ -44,8 +44,8 @@ const getTeams = () => axios.get(
     },
 )
     .then((response) => response.data)
-    .catch((error) => {
-        throw new Error(error.message);
+    .catch(() => {
+        throw new Error(generalError);
     });
 
 const getAllTeams = () => axios.get(
@@ -56,8 +56,8 @@ const getAllTeams = () => axios.get(
     },
 )
     .then((response) => response.data)
-    .catch((error) => {
-        throw new Error(error.message);
+    .catch(() => {
+        throw new Error(generalError);
     });
 
 export {
