@@ -1,13 +1,12 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-props-no-spreading */
-
 import React, { useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
 const CheckboxesTags = (props) => {
     const {
-        value, onChange, disabled, userList,
+        value, onChange, disabled, userList, placeholder,
     } = props;
     const [selected, setSelected] = useState(value);
 
@@ -29,6 +28,7 @@ const CheckboxesTags = (props) => {
             renderInput={(params) => (
                 <TextField
                     {...params}
+                    placeholder={placeholder}
                 />
             )}
         />

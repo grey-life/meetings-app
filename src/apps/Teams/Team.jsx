@@ -67,6 +67,7 @@ const Team = ({ team, userList, removeTeam }) => {
                         value={members}
                         onChange={setMembers}
                         userList={userList}
+                        placeholder="Members"
                     />
                 </div>
                 {

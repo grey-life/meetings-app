@@ -110,6 +110,7 @@ const AddTeamForm = ({ userList, updateTeams }) => {
                         name="description"
                         type="text"
                         rows="1"
+                        placeholder="Short Description"
                         value={formik.values.description}
                         onChange={formik.handleChange}
                     />
@@ -132,6 +133,7 @@ const AddTeamForm = ({ userList, updateTeams }) => {
                         onChange={setMembers}
                         disabled={!formik.isValid}
                         userList={userList}
+                        placeholder="Members"
                     />
                 </div>
                 <button
