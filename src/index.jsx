@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import store from './redux/store';
 import Routes from './routes';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import './styles/litera.min.css';
 import 'react-toastify/dist/ReactToastify.css';
 
 ReactDOM.render(
