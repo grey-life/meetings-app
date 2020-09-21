@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import navItems from './navItems.json';
 import { setAuth } from '../../redux/userSlice';
 import { logout } from '../../services/authentication';
@@ -10,6 +10,7 @@ const Navbar = ({ userRole, selected }) => {
     const history = useHistory();
     const dispatch = useDispatch();
     const itemList = navItems[userRole];
+    const username = useSelector((state) => state.user.username);
 
     const handleSignout = () => {
         logout();
@@ -31,6 +32,10 @@ const Navbar = ({ userRole, selected }) => {
                     }
                 </ul>
             </div>
+            <span className="navbar-text">
+                {`Hi, ${username}`}
+                &nbsp; &nbsp; &nbsp;
+            </span>
             <button
                 className="btn btn-outline-light my-2 my-sm-0"
                 type="submit"
