@@ -8,7 +8,7 @@ const Team = ({ team, userList, removeTeam }) => {
     const [members, setMembers] = useState(team.members);
     const [error, setError] = useState(null);
 
-    const updateMeeting = async () => {
+    const updateTeam = async () => {
         const { _id: teamId } = team;
         try {
             addMembers(teamId, members);
@@ -80,9 +80,9 @@ const Team = ({ team, userList, removeTeam }) => {
                 <button
                     type="button"
                     className="btn btn-primary"
-                    onClick={updateMeeting}
+                    onClick={updateTeam}
                 >
-                    Update Meeting
+                    Update Team
                 </button>
             </div>
         </div>
