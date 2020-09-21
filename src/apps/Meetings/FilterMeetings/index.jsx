@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import FilterForm from './FilterForm';
 import FilterResults from './FilterResults';
-import { getUsers, getMeetings } from '../../../services/getDetails';
+import { getUsers, getMeetings, getAllTeams } from '../../../services/getDetails';
 
 const FilterMeetings = () => {
     const [userEmails, setUserEmails] = useState([]);
+    const [shortName, setShortName] = useState([]);
     const [meetings, setMeetings] = useState([]);
     const [error, setError] = useState(null);
 
@@ -40,6 +41,18 @@ const FilterMeetings = () => {
             });
     }, []);
 
+    useEffect(() => {
+        async function fetchTeams() {
+            try {
+                const data = await getAllTeams();
+                const project = data.map((team) => ({ username: team.shortname }));
+                setShortName(project);
+            } catch (err) {
+                setError(err.message);
+            }
+        } fetchTeams();
+    }, []);
+
     return (
         <>
             <FilterForm updateMeetings={updateMeetings} />
@@ -53,7 +66,7 @@ const FilterMeetings = () => {
             <FilterResults
                 meetings={meetings}
                 removeMeeting={removeMeeting}
-                userEmails={userEmails}
+                userEmails={[...userEmails, ...shortName]}
             />
         </>
 

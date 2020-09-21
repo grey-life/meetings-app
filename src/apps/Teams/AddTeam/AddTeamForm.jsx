@@ -42,7 +42,7 @@ const AddTeamForm = ({ userList, updateTeams }) => {
                     ...values,
                     members,
                 });
-                updateTeams();
+                await updateTeams();
                 setMembers([]);
                 toast.success('Team Created Succesfully', {
                     position: 'bottom-center',

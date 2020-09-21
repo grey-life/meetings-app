@@ -5,7 +5,9 @@ import { ToastContainer, toast } from 'react-toastify';
 import UserDropdown from '../UserDropdown';
 import { excuseYourself, addAttendees } from '../../../services/updateDetails';
 
-const Meeting = ({ meeting, userEmails, removeMeeting }) => {
+const Meeting = ({
+    meeting, userEmails, removeMeeting,
+}) => {
     const [attendees, setAttendees] = useState(meeting.attendees);
     const [error, setError] = useState(null);
 

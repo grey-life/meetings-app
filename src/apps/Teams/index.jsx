@@ -18,7 +18,12 @@ const Teams = () => {
         setTeams(updatedTeams);
     };
 
-    const updateTeams = () => {
+    const updateTeams = async () => {
+        const team = await getTeams();
+        setTeams(team);
+    };
+
+    useEffect(() => {
         getTeams()
             .then((data) => {
                 setTeams(data);
@@ -26,7 +31,7 @@ const Teams = () => {
             .catch((err) => {
                 setError(err.message);
             });
-    };
+    }, []);
 
     useEffect(() => {
         getUsers()
@@ -36,14 +41,8 @@ const Teams = () => {
             .catch((err) => {
                 setError(err.message);
             });
-        getTeams()
-            .then((data) => {
-                setTeams(data);
-            })
-            .catch((err) => {
-                setError(err.message);
-            });
     }, []);
+
     return (
         <>
             <Navbar userRole="user" selected="Teams" />
@@ -51,7 +50,7 @@ const Teams = () => {
                 <div className="row d-flex justify-content-center">
                     <SectionHeading title="Teams" />
                     {error && (
-                        <div className="alert alert-danger">
+                        <div className=" row alert alert-danger">
                             {error}
                         </div>
                     )}

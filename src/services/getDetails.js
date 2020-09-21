@@ -48,9 +48,22 @@ const getTeams = () => axios.get(
         throw new Error(error.message);
     });
 
+const getAllTeams = () => axios.get(
+    `${cors}${serviceUrl}/api/teams/allteams`, {
+        headers: {
+            ...createAuthHeaders(),
+        },
+    },
+)
+    .then((response) => response.data)
+    .catch((error) => {
+        throw new Error(error.message);
+    });
+
 export {
     getUsers,
     getMeetings,
     getCalendar,
     getTeams,
+    getAllTeams,
 };

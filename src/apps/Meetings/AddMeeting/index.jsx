@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 import { useFormik } from 'formik';
 import { ToastContainer, toast } from 'react-toastify';
-import { getUsers } from '../../../services/getDetails';
+import { getUsers, getAllTeams } from '../../../services/getDetails';
 import UserDropdown from '../UserDropdown';
 import { addMeeting } from '../../../services/addDetails';
 import padZeros from '../../../helpers/padZeros';
 
 const AddMeetings = () => {
     const [userEmails, setUserEmails] = useState([]);
+    const [shortName, setShortName] = useState([]);
     const [attendees, setAttendees] = useState([]);
     const [error, setError] = useState(null);
 
@@ -98,13 +99,26 @@ const AddMeetings = () => {
     });
 
     useEffect(() => {
-        getUsers()
-            .then((data) => {
+        async function fetchUsers() {
+            try {
+                const data = await getUsers();
                 setUserEmails(data);
-            })
-            .catch((err) => {
+            } catch (err) {
                 setError(err.message);
-            });
+            }
+        } fetchUsers();
+    }, []);
+
+    useEffect(() => {
+        async function fetchTeams() {
+            try {
+                const data = await getAllTeams();
+                const project = data.map((team) => ({ username: team.shortname }));
+                setShortName(project);
+            } catch (err) {
+                setError(err.message);
+            }
+        } fetchTeams();
     }, []);
 
     return (
@@ -215,7 +229,10 @@ const AddMeetings = () => {
                     )
                 }
                 <ToastContainer />
-                <UserDropdown addAttendee={addAttendee} userEmails={userEmails} />
+                <UserDropdown
+                    addAttendee={addAttendee}
+                    userEmails={[...userEmails, ...shortName]}
+                />
                 <button
                     type="submit"
                     className="btn btn-primary"
