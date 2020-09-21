@@ -9,7 +9,7 @@ const UnauthorizedAccess = () => (
                 <h4 className="alert-heading ">
                     Access Denied
                 </h4>
-                <p>You are not authorzied to view this page</p>
+                <p>You are not authorizied to view this page</p>
                 <Link className="btn btn-info" to="/">Click here to go back to home page!</Link>
             </div>
         </div>
