@@ -51,64 +51,68 @@ const Login = () => {
         <Container>
             <div className="row fill align-items-end d-flex justify-content-center">
                 <div className="card col-6">
-                    <form className="card-body" onSubmit={formik.handleSubmit}>
-                        <div className="form-group">
-                            <label htmlFor="exampleInputEmail1">
-                                Email address
-                            </label>
-                            <input
-                                type="email"
-                                name="email"
-                                id="email"
-                                className="form-control"
-                                placeholder="Enter email"
-                                onChange={formik.handleChange}
-                                value={formik.values.email}
-                            />
-                        </div>
-                        {formik.errors.email && (
-                            <div className="alert alert-danger">
-                                {formik.errors.email}
+                    <div className="card-body">
+                        <h5 className="card-title">Login to Meetings App</h5>
+                        <hr />
+                        <form onSubmit={formik.handleSubmit}>
+                            <div className="form-group">
+                                <label htmlFor="exampleInputEmail1">
+                                    Email address
+                                </label>
+                                <input
+                                    type="email"
+                                    name="email"
+                                    id="email"
+                                    className="form-control"
+                                    placeholder="Enter email"
+                                    onChange={formik.handleChange}
+                                    value={formik.values.email}
+                                />
                             </div>
-                        )}
-                        <div className="form-group">
-                            <label htmlFor="exampleInputPassword1">
-                                Password
-                            </label>
-                            <input
-                                type="password"
-                                name="password"
-                                id="password"
-                                className="form-control"
-                                placeholder="Password"
-                                onChange={formik.handleChange}
-                                value={formik.values.password}
-                            />
-
-                        </div>
-                        {formik.errors.password && (
-                            <div className="alert alert-danger">
-                                {formik.errors.password}
-                            </div>
-                        )}
-                        {
-                            error && (
+                            {formik.errors.email && (
                                 <div className="alert alert-danger">
-                                    {error}
+                                    {formik.errors.email}
                                 </div>
-                            )
-                        }
-                        <div className="d-flex justify-content-between">
-                            <Link className="btn btn-outline-primary" to="/signup"> Create Account </Link>
-                            <button
-                                type="submit"
-                                className="btn btn-primary"
-                                disabled={formik.isSubmitting}
-                            >
-                                Submit
-                            </button>
-                        </div>
-                    </form>
+                            )}
+                            <div className="form-group">
+                                <label htmlFor="exampleInputPassword1">
+                                    Password
+                                </label>
+                                <input
+                                    type="password"
+                                    name="password"
+                                    id="password"
+                                    className="form-control"
+                                    placeholder="Password"
+                                    onChange={formik.handleChange}
+                                    value={formik.values.password}
+                                />
+
+                            </div>
+                            {formik.errors.password && (
+                                <div className="alert alert-danger">
+                                    {formik.errors.password}
+                                </div>
+                            )}
+                            {
+                                error && (
+                                    <div className="alert alert-danger">
+                                        {error}
+                                    </div>
+                                )
+                            }
+                            <div className="d-flex justify-content-between">
+                                <Link className="btn btn-outline-primary" to="/signup"> Create Account </Link>
+                                <button
+                                    type="submit"
+                                    className="btn btn-primary"
+                                    disabled={formik.isSubmitting}
+                                >
+                                    Submit
+                                </button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </Container>
